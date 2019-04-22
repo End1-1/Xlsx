@@ -7,12 +7,14 @@
 #include "xlsxcell.h"
 #include "xlsxsheet.h"
 #include <QMessageBox>
+#include <QDateTime>
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
+    ui->leDate->setText(QString::number(QDateTime::currentDateTime().toTime_t() / 84000));
 }
 
 Dialog::~Dialog()

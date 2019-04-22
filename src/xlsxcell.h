@@ -12,12 +12,14 @@ public:
     XlsxCell(int row, int column, const QVariant &cellValue);
     QVariant &value();
     const QString &address();
+    int style();
+    void setStyle(int style);
     QString fValueType;
-    int fStyle;
 
 private:
     int fRow;
     int fColumn;
+    int fStyle;
     QString fAddress;
     QVariant fCellValue;
 };

@@ -44,7 +44,7 @@ void XlsxStyles::buildExcelData()
 
     fExcelData += QString("<cellXfs count=\"%1\"><xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\" xfId=\"0\"/>").arg(fStylesCount);
     for (QMap<int, QString>::const_iterator it = fStyles.begin(); it != fStyles.end(); it++) {
-        int numFmtId = 0;
+        int numFmtId = fNumFmtId[it.key()];
         int fontId = fFontsMap[it.value()];
         int borderId = 0;
         int fillId = fBackgroundFillsMap[it.value()];
@@ -67,6 +67,29 @@ int XlsxStyles::styleNum(const QString &name)
     return fStyles.key(name);
 }
 
+QString XlsxStyles::styleName(int style)
+{
+    return fStyles[style];
+}
+
+int XlsxStyles::copyStyle(const QString &srcName, const QString &newStyleName)
+{
+    if (fStyles.values().contains(newStyleName)) {
+        return fStyles.key(newStyleName);
+    }
+    int styleCount = fStylesCount;
+    if (fBackgroundFillsMap.contains(srcName)) {
+        addBackgrounFill(newStyleName, fBackgroundFills[fBackgroundFillsMap[srcName]]);
+    }
+    if (fFontsMap.contains(srcName)) {
+        addFont(newStyleName, fFonts[fFontsMap[srcName]]);
+    }
+    if (styleCount == fStylesCount) {
+        fStyles[fStylesCount++] = newStyleName;
+    }
+    return styleNum(newStyleName);
+}
+
 void XlsxStyles::addFont(const QString &name, const QFont &font)
 {
     checkStyleNumber(name);
@@ -83,6 +106,11 @@ void XlsxStyles::addBackgrounFill(const QString &name, const QColor &color)
         fBackgroundFillsMap[name] = fFillsCount++;
     }
     fBackgroundFills[fBackgroundFillsMap[name]] = color;
+}
+
+void XlsxStyles::addNumFmtId(const QString &name, int id)
+{
+    fNumFmtId[styleNum(name)] = id;
 }
 
 void XlsxStyles::checkStyleNumber(const QString &name)

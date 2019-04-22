@@ -39,6 +39,16 @@
     <string>Write tree files</string>
    </property>
   </widget>
+  <widget class="QLineEdit" name="leDate">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>50</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

@@ -25,3 +25,13 @@ const QString &XlsxCell::address()
 {
     return fAddress;
 }
+
+int XlsxCell::style()
+{
+    return fStyle;
+}
+
+void XlsxCell::setStyle(int style)
+{
+    fStyle = style;
+}

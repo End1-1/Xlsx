@@ -59,7 +59,8 @@ HEADERS += \
     src/xlsxcontenttype.h \
     src/xlsxdocpropscore.h \
     src/xlsxdocpropsapp.h \
-    src/xlsxrels.h
+    src/xlsxrels.h \
+    src/xlsxall.h
 
 FORMS += \
         dialog.ui

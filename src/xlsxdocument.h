@@ -19,6 +19,7 @@ public:
     XlsxWorkBook *addWorkbook();
     XlsxWorkBook *workbook();
     XlsxStyles *style();
+    bool save(QString &err, bool open);
     bool save(const QString &fileName, QString &err);
 
 private:

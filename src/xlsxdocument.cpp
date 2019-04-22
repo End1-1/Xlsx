@@ -9,6 +9,8 @@
 #include "xlsxcontenttype.h"
 #include "xlsxrels.h"
 #include "xlsxsheet.h"
+#include <QFileDialog>
+#include <QDesktopServices>
 
 XlsxDocument::XlsxDocument()
 {
@@ -17,6 +19,7 @@ XlsxDocument::XlsxDocument()
     fDocPropsCore = new XlsxDocPropsCore();
     fRels = new XlsxRels();
     fWorkBook = new XlsxWorkBook();
+    fWorkBook->fDocument = this;
     fStyles = new XlsxStyles();
     fTheme = new XlsxTheme();
 }
@@ -49,6 +52,21 @@ XlsxWorkBook *XlsxDocument::workbook()
 XlsxStyles *XlsxDocument::style()
 {
     return fStyles;
+}
+
+bool XlsxDocument::save(QString &err, bool open)
+{
+    QString fileName = QFileDialog::getSaveFileName(nullptr, "Save", "", "*.xlsx");
+    if (fileName.isEmpty()) {
+        return false;
+    }
+    bool result = save(fileName, err);
+    if (result) {
+        if (open) {
+            QDesktopServices::openUrl(QUrl(fileName));
+        }
+    }
+    return result;
 }
 
 bool XlsxDocument::save(const QString &fileName, QString &err)

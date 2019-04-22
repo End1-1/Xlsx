@@ -5,6 +5,7 @@
 
 class XlsxSheet;
 class XlsxSharedString;
+class XlsxDocument;
 
 class XlsxWorkBook : public Xlsx
 {
@@ -15,6 +16,7 @@ public:
     XlsxSheet *addSheet(const QString &name);
     XlsxSheet *sheet(int index);
     int sheetsCount();
+    XlsxDocument *fDocument;
 
 private:
     QMap<QString, XlsxSheet *> fSheets;

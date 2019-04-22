@@ -11,8 +11,11 @@ public:
     XlsxStyles();
     virtual void buildExcelData();
     int styleNum(const QString &name);
+    QString styleName(int style);
+    int copyStyle(const QString &srcName, const QString &newStyleName);
     void addFont(const QString &name, const QFont &font);
     void addBackgrounFill(const QString &name, const QColor &color);
+    void addNumFmtId(const QString &name, int id);
 
 private:
     QMap<int, QString> fStyles;
@@ -20,6 +23,7 @@ private:
     QMap<int, QColor> fBackgroundFills;
     QMap<QString, int> fFontsMap;
     QMap<int, QFont> fFonts;
+    QMap<int, int> fNumFmtId;
     int fStylesCount;
     int fFontsCount;
     int fFillsCount;

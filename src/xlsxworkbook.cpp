@@ -2,6 +2,7 @@
 #include "xlsxsheet.h"
 #include "xlsxwriter.h"
 #include "xlsxsharedstring.h"
+#include "xlsxdocument.h"
 
 XlsxWorkBook::XlsxWorkBook() :
     Xlsx()
@@ -53,6 +54,7 @@ XlsxSheet *XlsxWorkBook::addSheet(const QString &name)
     }
     XlsxSheet *s = new XlsxSheet(name);
     s->fSharedStrings = fSharedStrings;
+    s->fStyle = fDocument->style();
     fSheets[name] = s;
     fSheetsOrder << name;
     return s;
