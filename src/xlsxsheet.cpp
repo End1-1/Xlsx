@@ -52,7 +52,15 @@ XlsxCell *XlsxSheet::addCell(int row, int column, QVariant cellValue, int style)
     QString vt;
     switch (cellValue.type()) {
     case QVariant::String:
-        cellValue = fSharedStrings->addString(cellValue.toString().replace("/", "&#47;"));
+        cellValue = fSharedStrings->addString(cellValue.toString()
+                                              .replace("#", "&#35;")
+                                              .replace("&", "&#38;")
+                                              .replace("*", "&#42;")
+                                              .replace("/", "&#47;")
+                                              .replace("<", "&lt;")
+                                              .replace(">", "&gt;")
+                                              .replace("\"", "&quot;")
+                                              .replace("'", "&apos;"));
         vt = " t=\"s\"";
         break;
     case QVariant::Date: {

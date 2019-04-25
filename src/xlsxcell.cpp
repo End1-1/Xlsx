@@ -7,10 +7,13 @@ XlsxCell::XlsxCell(int row, int column, const QVariant &cellValue)
     fRow = row;
     fColumn = column;
     do  {
-        int m = (column - 1) % 25;
-        fAddress += alphabet[m];
+        int m = (column) / 27;
+        if (m == 0) {
+            m = column % 27;
+        }
         column -= 26;
-    } while (column > 26);
+        fAddress += alphabet[m - 1];
+    } while (column > 0);
     fCellValue = cellValue;
     fAddress += QString::number(row);
     fStyle = 0;
