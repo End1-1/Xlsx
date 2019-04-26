@@ -53,8 +53,9 @@ XlsxCell *XlsxSheet::addCell(int row, int column, QVariant cellValue, int style)
     switch (cellValue.type()) {
     case QVariant::String:
         cellValue = fSharedStrings->addString(cellValue.toString()
-                                              .replace("#", "&#35;")
+                                              .replace("#", "===|||+++patternchik")
                                               .replace("&", "&#38;")
+                                              .replace("===|||+++patternchik", "&#35;")
                                               .replace("*", "&#42;")
                                               .replace("/", "&#47;")
                                               .replace("<", "&lt;")
