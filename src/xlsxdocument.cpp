@@ -11,6 +11,7 @@
 #include "xlsxsheet.h"
 #include <QFileDialog>
 #include <QDesktopServices>
+#include <QStandardPaths>
 
 XlsxDocument::XlsxDocument()
 {
@@ -56,7 +57,7 @@ XlsxStyles *XlsxDocument::style()
 
 bool XlsxDocument::save(QString &err, bool open)
 {
-    QString fileName = QFileDialog::getSaveFileName(nullptr, "Save", "", "*.xlsx");
+    QString fileName = QFileDialog::getSaveFileName(nullptr, "Save", QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), "*.xlsx");
     if (fileName.isEmpty()) {
         return false;
     }

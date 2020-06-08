@@ -39,7 +39,15 @@ void XlsxSheet::buildExcelData()
         }
         fExcelData += "</row>";
     }
-    fExcelData += "</sheetData></worksheet>";
+    fExcelData += "</sheetData>";
+    if (fSpan.count() > 0) {
+        fExcelData += QString("<mergeCells count=\"%1\">").arg(fSpan.count());
+        for (const QString &s: fSpan) {
+            fExcelData += QString("<mergeCell ref=\"%1\"/>").arg(s);
+        }
+        fExcelData += "</mergeCells>";
+    }
+    fExcelData += "</worksheet>";
 }
 
 QString &XlsxSheet::name()
@@ -100,4 +108,14 @@ XlsxCell *XlsxSheet::addCell(int row, int column, QVariant cellValue, int style)
 void XlsxSheet::setColumnWidth(int column, int width)
 {
     fColumnWidths[column] = width;
+}
+
+void XlsxSheet::setSpan(const QString &span)
+{
+    fSpan.append(span);
+}
+
+void XlsxSheet::setSpan(const QString &f, const QString &s, int row)
+{
+    fSpan.append(QString("%1%3:%2%3").arg(f).arg(s).arg(row));
 }

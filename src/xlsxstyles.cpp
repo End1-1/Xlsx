@@ -7,6 +7,7 @@ XlsxStyles::XlsxStyles()
     fStylesCount = 1;
     fFillsCount = 2;
     fFontsCount = 1;
+    fHAlignsCount = 1;
 }
 
 void XlsxStyles::buildExcelData()
@@ -49,12 +50,16 @@ void XlsxStyles::buildExcelData()
         int borderId = 0;
         int fillId = fBackgroundFillsMap[it.value()];
         int xfId = 0;
-        fExcelData += QString("<xf numFmtId=\"%1\" fontId=\"%2\" fillId=\"%3\" borderId=\"%4\" xfId=\"%5\"/>")
+        fExcelData += QString("<xf numFmtId=\"%1\" fontId=\"%2\" fillId=\"%3\" borderId=\"%4\" xfId=\"%5\">")
                 .arg(numFmtId)
                 .arg(fontId)
                 .arg(fillId)
                 .arg(borderId)
                 .arg(xfId);
+        if (fHAlign.contains(it.key())) {
+            fExcelData += QString("<alignment horizontal=\"%1\"/>").arg(fHAlign[it.key()]);
+        }
+        fExcelData += "</xf>";
     }
     fExcelData += "</cellXfs>";
 
@@ -111,6 +116,15 @@ void XlsxStyles::addBackgrounFill(const QString &name, const QColor &color)
 void XlsxStyles::addNumFmtId(const QString &name, int id)
 {
     fNumFmtId[styleNum(name)] = id;
+}
+
+void XlsxStyles::addHAlignment(const QString &name, const QString &aligment)
+{
+    checkStyleNumber(name);
+    if (!fHAlignMap.contains(name)) {
+        fHAlignMap[name] = fHAlignsCount++;
+    }
+    fHAlign[fHAlignMap[name]] = aligment;
 }
 
 void XlsxStyles::checkStyleNumber(const QString &name)
