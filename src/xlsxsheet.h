@@ -21,6 +21,7 @@ public:
     void setColumnWidth(int column, int width);
     void setSpan(const QString &span);
     void setSpan(const QString &f, const QString &s, int row);
+    void setSpan(int r1, int c1, int r2, int c2);
 
 private:
     QMap<int, QMap<int, XlsxCell *> > fCells;

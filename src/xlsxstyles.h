@@ -2,10 +2,12 @@
 #define XLSXSTYLES_H
 
 #include "xlsx.h"
+#include "xlsxborder.h"
 #include <QColor>
 #include <QFont>
 
 #define xls_alignment_center "center"
+#define xls_alignment_right "right"
 
 class XlsxStyles : public Xlsx
 {
@@ -19,6 +21,8 @@ public:
     void addBackgrounFill(const QString &name, const QColor &color);
     void addNumFmtId(const QString &name, int id);
     void addHAlignment(const QString &name, const QString &aligment);
+    void addVAlignment(const QString &name, const QString &aligment);
+    void addBorder(const QString &name, XlsxBorder b);
 
 private:
     QMap<int, QString> fStyles;
@@ -29,10 +33,15 @@ private:
     QMap<int, int> fNumFmtId;
     QMap<QString, int> fHAlignMap;
     QMap<int, QString> fHAlign;
+    QMap<QString, int> fVAlignMap;
+    QMap<int, QString> fVAlign;
+    QMap<QString, int> fBordersMap;
+    QMap<int, XlsxBorder> fBorders;
     int fStylesCount;
     int fFontsCount;
     int fFillsCount;
     int fHAlignsCount;
+    int fBorderCount;
     void checkStyleNumber(const QString &name);
 };
 

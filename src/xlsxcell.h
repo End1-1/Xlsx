@@ -12,6 +12,7 @@ public:
     XlsxCell(int row, int column, const QVariant &cellValue);
     QVariant &value();
     const QString &address();
+    static QString calculateAddress(int row, int col);
     int style();
     void setStyle(int style);
     QString fValueType;

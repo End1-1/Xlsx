@@ -6,5 +6,6 @@
 #include "xlsxsheet.h"
 #include "xlsxstyles.h"
 #include "xlsxcell.h"
+#include "xlsxborder.h"
 
 #endif // XLSXALL_H

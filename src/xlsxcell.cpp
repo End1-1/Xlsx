@@ -6,16 +6,8 @@ XlsxCell::XlsxCell(int row, int column, const QVariant &cellValue)
 {
     fRow = row;
     fColumn = column;
-    do  {
-        int m = (column) / 27;
-        if (m == 0) {
-            m = column % 27;
-        }
-        column -= 26;
-        fAddress += alphabet[m - 1];
-    } while (column > 0);
     fCellValue = cellValue;
-    fAddress += QString::number(row);
+    fAddress = calculateAddress(row, column);
     fStyle = 0;
 }
 
@@ -27,6 +19,20 @@ QVariant &XlsxCell::value()
 const QString &XlsxCell::address()
 {
     return fAddress;
+}
+
+QString XlsxCell::calculateAddress(int row, int col)
+{
+    QString a;
+    do  {
+        int m = (col) / 27;
+        if (m == 0) {
+            m = col % 27;
+        }
+        col -= 26;
+        a += alphabet[m - 1];
+    } while (col > 0);
+    return a + QString::number(row);
 }
 
 int XlsxCell::style()

@@ -21,14 +21,14 @@ void XlsxSheet::buildExcelData()
             "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
             "<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">";
     fExcelData += "<cols>";
-    for (QMap<int, int>::const_iterator it = fColumnWidths.begin(); it != fColumnWidths.end(); it++) {
+    for (QMap<int, int>::const_iterator it = fColumnWidths.constBegin(); it != fColumnWidths.constEnd(); it++) {
         fExcelData += QString("<col min=\"%1\" max=\"%1\" width=\"%2\" %3costumWidth=\"1\"/>")
                 .arg(it.key())
                 .arg(it.value())
                 .arg(it.value() == 0 ? "hidden=\"1\" " : "");
     }
     fExcelData += "</cols><sheetData>";
-    for (QMap<int, QMap<int, XlsxCell *> >::const_iterator ir = fCells.begin(); ir != fCells.end(); ir++) {
+    for (QMap<int, QMap<int, XlsxCell *> >::const_iterator ir = fCells.constBegin(); ir != fCells.constEnd(); ir++) {
         fExcelData += QString("<row r=\"%1\">").arg(ir.key());
         for (QMap<int, XlsxCell *>::const_iterator ic = ir.value().begin(); ic != ir.value().end(); ic++) {
             fExcelData += QString("<c s=\"%1\" r=\"%2\"%3><v>%4</v></c>")
@@ -117,5 +117,10 @@ void XlsxSheet::setSpan(const QString &span)
 
 void XlsxSheet::setSpan(const QString &f, const QString &s, int row)
 {
-    fSpan.append(QString("%1%3:%2%3").arg(f).arg(s).arg(row));
+    fSpan.append(QString("%1%3:%2%3").arg(f, s, QString::number(row)));
+}
+
+void XlsxSheet::setSpan(int r1, int c1, int r2, int c2)
+{
+    fSpan.append(QString("%1:%2").arg(XlsxCell::calculateAddress(r1, c1), XlsxCell::calculateAddress(r2, c2)));
 }
