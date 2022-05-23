@@ -13,6 +13,10 @@ XlsxSheet::XlsxSheet(const QString &name) :
 {
     fName = name;
     fZipFileName = "xl/worksheets/" + name + ".xml";
+    fFitToPage = 0;
+    fPageSize = xls_page_size_a4;
+    fPageOrientation = xls_page_orientation_portrait;
+    setupMargins(0,0,0,0,0,0);
 }
 
 void XlsxSheet::buildExcelData()
@@ -20,6 +24,11 @@ void XlsxSheet::buildExcelData()
     fExcelData =
             "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
             "<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">";
+
+    if (fFitToPage > 0){
+        fExcelData += QString("<sheetPr><pageSetUpPr fitToPage=\"%1\"/></sheetPr>").arg(fFitToPage);
+    }
+
     fExcelData += "<cols>";
     for (QMap<int, int>::const_iterator it = fColumnWidths.constBegin(); it != fColumnWidths.constEnd(); it++) {
         fExcelData += QString("<col min=\"%1\" max=\"%1\" width=\"%2\" %3costumWidth=\"1\"/>")
@@ -47,6 +56,12 @@ void XlsxSheet::buildExcelData()
         }
         fExcelData += "</mergeCells>";
     }
+
+    fExcelData += QString("<pageMargins left=\"%1\" right=\"%2\" top=\"%3\" bottom=\"%4\" header=\"%5\" footer=\"%6\"/>")
+            .arg(fMarginLeft).arg(fMarginRight).arg(fMarginTop).arg(fMarginBottom).arg(fMarginHeader).arg(fMarginFooter);
+
+    fExcelData += QString("<pageSetup paperSize=\"%1\" fitToHeight=\"0\" orientation=\"%2\"/>")
+            .arg(fPageSize).arg(fPageOrientation);
     fExcelData += "</worksheet>";
 }
 
@@ -123,4 +138,21 @@ void XlsxSheet::setSpan(const QString &f, const QString &s, int row)
 void XlsxSheet::setSpan(int r1, int c1, int r2, int c2)
 {
     fSpan.append(QString("%1:%2").arg(XlsxCell::calculateAddress(r1, c1), XlsxCell::calculateAddress(r2, c2)));
+}
+
+void XlsxSheet::setupPage(int pagesize, int fittopage, const QString &pageOrientation)
+{
+    fPageSize = pagesize;
+    fFitToPage = fittopage;
+    fPageOrientation = pageOrientation;
+}
+
+void XlsxSheet::setupMargins(int l, int r, int t, int b, int h, int f)
+{
+    fMarginLeft = l;
+    fMarginRight = r;
+    fMarginTop = t;
+    fMarginBottom = b;
+    fMarginHeader = h;
+    fMarginFooter = f;
 }
