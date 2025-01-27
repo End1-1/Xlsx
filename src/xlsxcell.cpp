@@ -24,14 +24,11 @@ const QString &XlsxCell::address()
 QString XlsxCell::calculateAddress(int row, int col)
 {
     QString a;
-    do  {
-        int m = (col) / 27;
-        if (m == 0) {
-            m = col % 27;
-        }
-        col -= 26;
-        a += alphabet[m - 1];
-    } while (col > 0);
+    while (col > 0) {
+        col--;  // Для того чтобы правильно работать с системой счисления от 1
+        a.prepend(alphabet[col % 26]);  // Добавляем букву в начало строки
+        col /= 26;  // Переходим к следующему разряду
+    }
     return a + QString::number(row);
 }
 
